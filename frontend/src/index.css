@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #0F1923;
+    color: #ECE8E1;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #0F1923;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #1A242F;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #768079;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-[#1e2a36]/80 backdrop-blur-sm border border-white/5 rounded-xl;
+  }
+
+  .btn-primary {
+    @apply bg-[#FF4655] hover:bg-[#FF4655]/90 text-[#ECE8E1] font-semibold
+           px-8 py-3 rounded-lg transition-all duration-300
+           hover:shadow-lg hover:shadow-[#FF4655]/25
+           active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .input-field {
+    @apply w-full bg-[#0F1923] border border-white/10 rounded-lg px-4 py-3
+           text-[#ECE8E1] placeholder-[#768079]/60
+           focus:outline-none focus:border-[#FF4655]/50 focus:ring-1 focus:ring-[#FF4655]/30
+           transition-all duration-200;
+  }
+
+  .stat-value {
+    @apply text-2xl font-bold font-poppins;
+  }
+
+  .section-title {
+    @apply text-2xl font-bold font-poppins text-[#ECE8E1];
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#FF4655] to-red-400;
+  }
+}

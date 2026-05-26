@@ -1,0 +1,52 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: valometrics
+      POSTGRES_PASSWORD: valometrics
+      POSTGRES_DB: valometrics
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - valometrics_net
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      POSTGRES_USER: valometrics
+      POSTGRES_PASSWORD: valometrics
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: valometrics
+      CORS_ORIGINS: '["http://localhost:5173", "http://frontend:80"]'
+      HENRIKDEV_API_KEY: ${HENRIKDEV_API_KEY:-HDEV-4913d1c3-5044-4f7e-ba4c-658e19987652}
+    ports:
+    - "8000:8000"
+    volumes:
+      - ./backend:/app
+    networks:
+      - valometrics_net
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - valometrics_net
+
+networks:
+  valometrics_net:
+    driver: bridge
+
+volumes:
+  postgres_data:
